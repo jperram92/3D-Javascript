@@ -1,17 +1,26 @@
-// script.js
-
 // Scene, Camera, Renderer
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-const renderer = new THREE.WebGLRenderer();
+const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-// Create a Box Geometry
-const geometry = new THREE.BoxGeometry(2, 1, 1); // Width, Height, Depth
-const material = new THREE.MeshNormalMaterial(); // Material with normal colors
-const box = new THREE.Mesh(geometry, material);
-scene.add(box);
+// Create a Rectangle (BoxGeometry)
+const rectangleGeometry = new THREE.BoxGeometry(2, 1, 1);
+const rectangleMaterial = new THREE.MeshNormalMaterial();
+const rectangle = new THREE.Mesh(rectangleGeometry, rectangleMaterial);
+rectangle.position.x = -2;
+scene.add(rectangle);
+
+// Create a Cube (BoxGeometry)
+const cubeGeometry = new THREE.BoxGeometry(2, 2, 2);
+const cubeMaterial = new THREE.MeshBasicMaterial({
+  color: 0x44aa88,
+  wireframe: true,
+});
+const cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+cube.position.x = 2;
+scene.add(cube);
 
 // Camera Position
 camera.position.z = 5;
@@ -19,8 +28,15 @@ camera.position.z = 5;
 // Animation Loop
 function animate() {
   requestAnimationFrame(animate);
-  box.rotation.x += 0.01; // Rotate around X-axis
-  box.rotation.y += 0.01; // Rotate around Y-axis
+
+  // Rotate the Rectangle
+  rectangle.rotation.x += 0.01;
+  rectangle.rotation.y += 0.01;
+
+  // Rotate the Cube
+  cube.rotation.x += 0.01;
+  cube.rotation.y += 0.01;
+
   renderer.render(scene, camera);
 }
 
