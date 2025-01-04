@@ -3,15 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>3D Cube and Rectangle with Music</title>
+  <title>3D App with ChatGPT and Music</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="audio-container">
-    <h1 id="song-title">🎵 Walk the Walk 🎵</h1>
-    <audio id="background-music" src="Business Clowns.mp3" controls loop autoplay></audio>
+  <!-- Song Title and Player -->
+  <div class="song-container">
+    <h1 id="song-title">🎵 Raindrops of Memories 🎵</h1>
+    <audio id="background-music" src="Raindrops of Memories.mp3" controls loop autoplay></audio>
   </div>
+
+  <!-- Chatbot Container -->
+  <div id="chatbot-container">
+    <div id="chatbot-header">🤖 ChatGPT</div>
+    <div id="chatbot-body"></div>
+    <input id="chatbot-input" type="text" placeholder="Ask me something..." />
+    <button id="chatbot-send">Send</button>
+  </div>
+
   <script src="script.js"></script>
+  <script src="chatbot.js"></script>
 </body>
 </html>
