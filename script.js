@@ -11,6 +11,8 @@ const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerH
 // Create a WebGL renderer with antialiasing enabled
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.shadowMap.enabled = true; // Enable shadows
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 document.body.appendChild(renderer.domElement);
 
 // -------------------------------
@@ -31,6 +33,7 @@ scene.add(light);
 
 // Position the rectangle to the left
 rectangle.position.x = -2;
+rectangle.castShadow = true; // Enable shadows
 scene.add(rectangle);
 
 // -------------------------------
@@ -42,13 +45,14 @@ const cubeGeometry = new THREE.BoxGeometry(2, 2, 2);
 
 // Use MeshBasicMaterial with wireframe
 const cubeMaterial = new THREE.MeshBasicMaterial({
-  color: 0x44aa88,
+  color: 0x000000, // Pure black color
   wireframe: true,
 });
 const cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
 
 // Position the cube to the right
 cube.position.x = 2;
+cube.castShadow = true; // Enable shadows
 scene.add(cube);
 
 // -------------------------------
@@ -63,6 +67,7 @@ const ball = new THREE.Mesh(ballGeometry, ballMaterial);
 // Position the ball below the rectangle and cube
 ball.position.y = -1;
 ball.position.x = 0;
+ball.castShadow = true; // Enable shadows
 scene.add(ball);
 
 // Add a point light specifically for the ball
@@ -71,11 +76,72 @@ ballLight.position.set(0, 5, 5);
 scene.add(ballLight);
 
 // -------------------------------
+// 🌍 Enhanced Flat Plane (Ground)
+// -------------------------------
+
+// Load a texture for the plane
+const textureLoader = new THREE.TextureLoader();
+const groundTexture = textureLoader.load('textures/ground_texture.jpg'); // Replace with your texture path
+groundTexture.wrapS = THREE.RepeatWrapping;
+groundTexture.wrapT = THREE.RepeatWrapping;
+groundTexture.repeat.set(4, 4); // Adjust how many times the texture repeats
+
+// Create Plane Geometry
+const planeGeometry = new THREE.PlaneGeometry(15, 15, 32, 32); // Larger plane with more segments
+
+// Apply the texture to the plane material
+const planeMaterial = new THREE.MeshStandardMaterial({
+  map: groundTexture,
+  side: THREE.DoubleSide,
+  roughness: 0.3,
+  metalness: 0.5,
+  envMapIntensity: 0.5, // Adds some reflection
+});
+
+// Create the Plane Mesh
+const plane = new THREE.Mesh(planeGeometry, planeMaterial);
+
+// Rotate the Plane to Lay Flat
+plane.rotation.x = -Math.PI / 2;
+
+// Position the Plane Slightly Below the Objects
+plane.position.y = -1.5;
+
+// Enable Shadows
+plane.receiveShadow = true;
+
+// Add Plane to the Scene
+scene.add(plane);
+
+// -------------------------------
+// 🟠 Add a Grid Helper (Optional)
+// -------------------------------
+
+// Grid to visualize alignment
+//const gridHelper = new THREE.GridHelper(15, 15, 0x444444, 0x888888);
+//scene.add(gridHelper);
+
+// -------------------------------
+// 💡 Add Lights
+// -------------------------------
+
+// Ambient Light for Soft Illumination
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.5); // Soft ambient light
+scene.add(ambientLight);
+
+// Directional Light for Shadows
+const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+directionalLight.position.set(5, 10, 7.5);
+directionalLight.castShadow = true;
+scene.add(directionalLight);
+
+// -------------------------------
 // 🎥 Camera Position
 // -------------------------------
 
 // Adjust camera position for a better view
-camera.position.z = 8;
+camera.position.set(0, 5, 10); // Elevated camera view
+camera.lookAt(0, 0, 0); // Point camera towards the center
 
 // -------------------------------
 // 🔄 Animation Loop
@@ -118,5 +184,4 @@ window.addEventListener('resize', () => {
   renderer.setSize(window.innerWidth, window.innerHeight);
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
-
 });
