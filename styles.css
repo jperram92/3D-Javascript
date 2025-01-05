@@ -52,12 +52,25 @@ body {
   z-index: 1000;
 }
 
+/* Chatbot Header */
 #chatbot-header {
-  background: #4caf50;
+  background-color: #4caf50;
   color: white;
-  text-align: center;
   padding: 10px;
   font-weight: bold;
+  font-size: 1.5em; /* Bigger header text */
+  text-align: center;
+  border-radius: 8px 8px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px; /* Space between emoji and text */
+}
+
+/* Giraffe Emoji */
+.chatbot-emoji {
+  font-size: 2.5em; /* Bigger emoji size */
+  line-height: 1;
 }
 
 #chatbot-body {
@@ -87,4 +100,9 @@ body {
 
 #chatbot-send:hover {
   background: #388e3c;
+}
+
+/* Chatbot Title Text */
+.chatbot-title {
+  font-size: 1.2em; /* Slightly larger text for clarity */
 }
