@@ -5,6 +5,13 @@
 // Create a new 3D scene
 const scene = new THREE.Scene();
 
+const loader = new THREE.TextureLoader();
+loader.load('./textures/table_mountain_2_puresky.webp', function (texture) {
+  scene.background = texture;
+}, undefined, function (error) {
+  console.error('Texture loading error:', error);
+});
+
 // Create a camera
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
